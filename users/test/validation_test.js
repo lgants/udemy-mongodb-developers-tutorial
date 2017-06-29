@@ -17,6 +17,18 @@ describe('Validating records', () => {
     const { message } = validationResult.errors.name;
 
     assert(message === "Name must be longer than 2 characters.")
-  })
+  });
 
+  it('disallows invalid records from being saved', (done) => {
+    const user = new User({ name: 'Al' });
+    // catch will be called if trying to save an invalid object
+    user.save()
+      .catch((validationResult) => {
+        const { message } = validationResult.errors.name;
+
+        assert(message === 'Name must be longer than 2 characters.');
+        // need done because this is an async test
+        done();
+      });
+  });
 });
