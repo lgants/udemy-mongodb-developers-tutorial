@@ -8,7 +8,7 @@ const BlogPostSchema = new Schema({
   content: String,
   comments: [{
     type: Schema.Type.ObjectId,
-    ref: 'Comment'
+    ref: 'comment'
   }]
 })
 
