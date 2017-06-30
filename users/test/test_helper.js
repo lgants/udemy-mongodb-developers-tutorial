@@ -12,9 +12,18 @@ before((done) => {
     });
 });
 
+// done is a callback for mocha that tells it to run the next test
 beforeEach((done) => {
-  mongoose.connection.collections.users.drop(() => {
-  // done is a callback for mocha that tells it to run the next test
-  done();
+  // mongo cannot drop tables asynchronously
+  // use lowercase 'blogposts' because mongo normalizes each collection name by lowercasing
+  const { users, comments, blogposts } = mongoose.connection.collections
+  users.drop(() => {
+    comments.drop(() => {
+      blogposts.drop(() => {
+        done();
+      });
+    });
   });
 });
+
+// mongoose.connection.collections.users.drop(() => {
