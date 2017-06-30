@@ -29,5 +29,31 @@ describe('associations', () => {
         assert(user.blogPosts[0].title == 'JS is great');
         done();
       });
-  })
-})
+  });
+
+
+  it('saves a full relation graph', (done) => {
+    // first populate and path key means look into the user object, find blogPost property, attempt to load any associated blogPosts recursively
+    // the second populate and path key means inside of all the blogPosts just fetched, find the comments property and attempt to load up associated comments
+    User.findOne({ name: 'Joe' })
+      .populate({
+        path: 'blogPosts',
+        populate: {
+          path: 'comments',
+          model: 'comment',
+          populate: {
+            path: 'user',
+            model: 'user'
+          }
+        }
+      })
+      .then((user) => {
+        assert(user.name === 'Joe');
+        assert(user.blogPosts[0].title === 'JS is great');
+        assert(user.blogPosts[0].comments[0].content === 'Congrats on great post');
+        assert(user.blogPosts[0].comments[0].user.name === 'Joe');
+
+        done();
+      });
+  });
+});

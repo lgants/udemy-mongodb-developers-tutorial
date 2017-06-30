@@ -1,5 +1,5 @@
-const PostSchema = require('./post');
 const mongoose = require('mongoose');
+const PostSchema = require('./post');
 const Schema = mongoose.Schema;
 
 // deleted 'postCount: Number' because it was moved to a virtual property and therefore not defined in the schema; instead, it is defined as seperate declerations on the schema
@@ -26,6 +26,6 @@ UserSchema.virtual('postCount').get(function(){
   return this.posts.length;
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model('user', UserSchema);
 
 module.exports = User
