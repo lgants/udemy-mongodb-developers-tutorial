@@ -51,7 +51,8 @@ describe('Updating records', () => {
     )
   });
 
-  it('a user can have their post count incremented by 1', (done) => {
+  // by adding an x to it (i.e. xit) mocha won't run the test
+  xit('a user can have their post count incremented by 1', (done) => {
     // inc is an update operator
     // operator keys passed objects containing the attribute and relevant amount
     User.update({ name: 'Joe' }, { $inc: { postCount: 1 } })
