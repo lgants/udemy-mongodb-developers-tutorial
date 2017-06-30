@@ -13,7 +13,11 @@ const UserSchema = new Schema({
     required: [true, 'Name is required.']
   },
   posts: [PostSchema],
-  likes: Number
+  likes: Number,
+  blogPosts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'blogPost'
+  }]
 });
 
 // when accessing 'joe.postCount' it is essentially running a function even though there were no parantheses
