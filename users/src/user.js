@@ -12,12 +12,14 @@ const UserSchema = new Schema({
     },
     required: [true, 'Name is required.']
   },
-  posts: [PostSchema]
+  posts: [PostSchema],
+  likes: Number
 });
 
-// when accessing 'joe.postCount' it is essentially running a function even though there were no parantheses 
+// when accessing 'joe.postCount' it is essentially running a function even though there were no parantheses
+// need to use keyword function (i.e. not fat arrow) so 'this' context is the current model instance
 UserSchema.virtual('postCount').get(function(){
-
+  return this.posts.length;
 });
 
 const User = mongoose.model('User', UserSchema);
