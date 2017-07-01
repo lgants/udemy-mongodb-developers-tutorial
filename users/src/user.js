@@ -26,6 +26,16 @@ UserSchema.virtual('postCount').get(function(){
   return this.posts.length;
 });
 
+// called before any user gets removed
+// note the keyword function; inside function this === joe
+UserSchema.pre('remove', function(next){
+  // prevents cyclical loading conflicts
+  const BlogPost = mongoose.model('blogPost')
+
+  BlogPost.remove({ _id: { $in: this.blogPosts } })
+    .then(() => next());
+})
+
 const User = mongoose.model('user', UserSchema);
 
 module.exports = User
