@@ -5,9 +5,14 @@ describe('Reading users out of the database', () => {
   let joe;
 
   beforeEach((done) => {
-    // joe is given an id property even before joe is saved to db
+    // each user is given an id property even before being saved to db
+    alex = new User({ name: 'Alex' });
     joe = new User({ name: 'Joe' });
-    joe.save()
+    maria = new User({ name: 'Maria' });
+    zach = new User({ name: 'Zach' });
+
+    // there is no guarantee that records will be saved in order from left to right
+    Promise.all([alex.save(), joe.save(), maria.save(), zach.save()])
       .then(() => done());
   });
 
@@ -27,4 +32,19 @@ describe('Reading users out of the database', () => {
         done();
       });
   });
+
+  it('can skip and limit a result set', (done) => {
+    // for sort, 1 is ascending; -1 is descending
+    User.find({})
+      .sort({ name: 1 })
+      .skip(1)
+      .limit(2)
+      .then((users) => {
+        assert(users.length === 2);
+        assert(users[0].name === 'Joe');
+        assert(users[1].name === 'Maria');
+        done();
+      });
+  });
+
 });

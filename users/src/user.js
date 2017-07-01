@@ -26,6 +26,7 @@ UserSchema.virtual('postCount').get(function(){
   return this.posts.length;
 });
 
+// middleware
 // called before any user gets removed
 // note the keyword function; inside function this === joe
 UserSchema.pre('remove', function(next){

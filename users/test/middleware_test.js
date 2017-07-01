@@ -6,6 +6,9 @@ const BlogPost = require('../src/blogPost');
 describe('middleware', (done) => {
 
   beforeEach((done) => {
+    alex = new User({ name: 'Alex' });
+    maria = new User({ name: 'Maria' });
+    zach = new User({ name: 'Zach' });
     joe = new User({ name: 'Joe' });
     blogPost = new BlogPost({ title: 'JS is great', content: 'Trust us'});
 
@@ -24,6 +27,5 @@ describe('middleware', (done) => {
         done();
       });
   });
-
 
 });
