@@ -4,7 +4,7 @@ before(done => {
   mongoose.connect('mongodb://localhost/muber_test');
   mongoose.connection
     .once('open', () => done())
-    .on('error', err => {
+    .on('error', error => {
       console.warn('Warning', error);
     });
 });
@@ -12,6 +12,7 @@ before(done => {
 beforeEach(done => {
   const { drivers } = mongoose.connection.collections;
   drivers.drop()
+    .then(() => drivers.ensureIndex({ 'geometry.coordinates': '2dsphere' }))
     .then(() => done())
-    .catch(() => done())
-})
+    .catch(() => done());
+});

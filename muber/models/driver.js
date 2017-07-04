@@ -9,9 +9,9 @@ const DriverSchema = new Schema({
   driving: {
     type: Boolean,
     default: false
-  }
+  },
 });
 
 const Driver = mongoose.model('driver', DriverSchema);
 
-module.exporst = Driver;
+module.exports = Driver;
