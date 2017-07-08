@@ -1,8 +1,16 @@
 const Driver = require('../models/driver');
 
 module.exports = {
-  greeting(req, res){
-    res.send({ hi: 'there' });
+  index(req, res, next) {
+    // need to use req.query since get request cannot contain body
+    const { lng, lat } = req.query;
+
+    Driver.geoNear(
+      { type: 'Point', coordinates: [parseFloat(lng), parseFloat(lat)] },
+      { spherical: true, maxDistance: 200000 }
+    )
+      .then(drivers => res.send(drivers))
+      .catch(next);
   },
 
   // if an error occurs, next will be called, which will be the custom error handling middleware
