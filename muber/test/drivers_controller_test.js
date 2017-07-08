@@ -73,5 +73,4 @@ describe('drivers controller', () => {
           });
       });
   });
-
 });
